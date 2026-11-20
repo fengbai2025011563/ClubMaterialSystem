@@ -1,21 +1,17 @@
 package com.club.user;
 
 /**
- * 登录用户（公共件，正式版由晏思汗在身份认证模块中维护）。
- *
- * <p>物资模块只需要用到"是谁在操作"和"是不是管理员"这两件事：
- * 管理员才能新增物资、入库、停用；普通成员只能浏览。</p>
- *
- * <p>字段与 users 表一一对应，这里只保留了物资模块会用到的部分，
- * 密码摘要不进这个对象，避免不小心带到页面上。</p>
+ * 登录用户。
+ * 字段与 users 表对应；password 只在登录校验时临时使用，登录成功后会被清空。
  */
 public class User {
 
     private int id;
     private String username;
+    private String password;
     private String realName;
-    /** MEMBER 普通成员 / ADMIN 管理员 */
     private String role;
+    private int status;
 
     public int getId() {
         return id;
@@ -31,6 +27,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRealName() {
@@ -49,16 +53,18 @@ public class User {
         this.role = role;
     }
 
-    /**
-     * 是否管理员。页面与 Servlet 都靠这一个判断决定"能不能改物资"。
-     */
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public boolean isAdmin() {
         return "ADMIN".equalsIgnoreCase(role);
     }
 
-    /**
-     * 给页面显示的角色名。
-     */
     public String getRoleText() {
         return isAdmin() ? "管理员" : "社团成员";
     }
