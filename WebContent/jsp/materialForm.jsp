@@ -92,7 +92,7 @@
             <div class="field">
                 <input type="text" id="name" name="name" maxlength="50"
                        placeholder="例如 折叠帐篷"
-                       value="<%= MaterialServlet.escape(isEdit ? material.getName() : "") %>">
+                       value="<%= MaterialServlet.escape(material != null ? material.getName() : "") %>">
                 <div class="form-tip">同一个名称只能登记一次，重名时数据库会拒绝</div>
             </div>
         </div>
@@ -102,7 +102,7 @@
             <div class="field">
                 <input type="text" id="category" name="category" maxlength="30" list="categoryOptions"
                        placeholder="例如 户外 / 家具 / 设备"
-                       value="<%= MaterialServlet.escape(isEdit ? material.getCategory() : "") %>">
+                       value="<%= MaterialServlet.escape(material != null ? material.getCategory() : "") %>">
                 <datalist id="categoryOptions">
                     <option value="户外"></option>
                     <option value="家具"></option>
@@ -118,7 +118,7 @@
             <div class="field">
                 <input type="text" id="unit" name="unit" maxlength="10"
                        placeholder="件 / 顶 / 张 / 台"
-                       value="<%= MaterialServlet.escape(isEdit ? material.getUnit() : "件") %>">
+                       value="<%= MaterialServlet.escape(material != null ? material.getUnit() : "件") %>">
                 <div class="form-tip">不填时默认按“件”处理</div>
             </div>
         </div>
@@ -127,7 +127,8 @@
         <div class="form-row">
             <label for="totalQty">初始库存</label>
             <div class="field">
-                <input type="number" id="totalQty" name="totalQty" min="0" step="1" value="0">
+                <input type="number" id="totalQty" name="totalQty" min="0" step="1"
+                       value="<%= material != null ? material.getTotalQty() : 0 %>">
                 <div class="form-tip">
                     新登记时可直接写现有数量；写 0 也可以，之后再从管理页“入库”。
                     保存后会自动生成一条“手工调整”的库存流水。
@@ -147,7 +148,7 @@
             <label for="remark">备注</label>
             <div class="field">
                 <textarea id="remark" name="remark" rows="3" maxlength="200"
-                          placeholder="存放地点、负责人等，例如 3 号储物间 A 架"><%= MaterialServlet.escape(isEdit ? material.getRemark() : "") %></textarea>
+                          placeholder="存放地点、负责人等，例如 3 号储物间 A 架"><%= MaterialServlet.escape(material != null ? material.getRemark() : "") %></textarea>
             </div>
         </div>
 
