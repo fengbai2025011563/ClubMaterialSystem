@@ -96,7 +96,7 @@ CREATE TABLE loan_applications (
     CONSTRAINT fk_loan_applicant FOREIGN KEY (applicant_id) REFERENCES users (id),
     CONSTRAINT fk_loan_reviewer FOREIGN KEY (reviewer_id) REFERENCES users (id),
     CONSTRAINT chk_loan_status CHECK (
-        status IN ('PENDING', 'APPROVED', 'REJECTED', 'LENT', 'RETURNED', 'CANCELLED')
+        status IN ('PENDING', 'APPROVED', 'REJECTED', 'BORROWED', 'RETURNED', 'CANCELLED')
     ),
     CONSTRAINT chk_loan_dates CHECK (expected_return >= expected_start)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '借用申请表';
