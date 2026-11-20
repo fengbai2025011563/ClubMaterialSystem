@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         id="WebApp_ID" version="3.1">
+
+  <display-name>ClubMaterialSystem</display-name>
+
+  <!--
+    说明：Servlet 的地址用 @WebServlet 注解写在类上，这里没有 servlet 配置。
+    正式合并时，这个文件以晏思汗维护的版本为准（包含登录过滤器 filter 等配置），
+    只需要保证欢迎页指向系统首页即可。
+  -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+</web-app>

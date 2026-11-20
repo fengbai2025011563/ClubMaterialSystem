@@ -1,0 +1,10 @@
+# Eclipse 编译产物（机器生成，不用上传）
+build/classes/
+build/tmpclasses/
+bin/
+*.class
+
+# 系统垃圾文件
+Thumbs.db
+.DS_Store
+*.log
