@@ -176,6 +176,23 @@ public class MaterialDao {
     }
 
     /**
+     * 调减：总量与可用同时减。
+     * 条件 available_qty >= ? 保证只动"可用"的部分，预留和借出的数量减不到，
+     * 也就不会出现"总量小于预留+借出"的坏数据。返回 0 表示可用不够。
+     */
+    public int reduceTotal(Connection conn, int id, int quantity) throws SQLException {
+        String sql = "UPDATE materials SET total_qty = total_qty - ?, available_qty = available_qty - ?, "
+                + "updated_at = NOW() WHERE id = ? AND available_qty >= ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, quantity);
+            ps.setInt(3, id);
+            ps.setInt(4, quantity);
+            return ps.executeUpdate();
+        }
+    }
+
+    /**
      * 预留：审批通过时把"可用"挪到"预留"。
      * WHERE 里两个条件缺一不可：物资必须是可借状态，且可用数量足够。
      * 更新 0 行就说明没抢到，由 Service 决定报什么错。

@@ -179,6 +179,48 @@ public class MaterialService {
         }
     }
 
+    /**
+     * 调减：数量必须为正整数，改库存的同时记一条 ADJUST 流水。
+     * 只能调减"可用"部分；预留和借出的数量属于别人，不能被管理员直接减掉。
+     */
+    public void reduceStock(int id, int quantity, Integer operatorId, String note) {
+        if (quantity <= 0) {
+            throw new BusinessException("调减数量必须是正整数");
+        }
+        Connection conn = null;
+        try {
+            Material material = materialDao.findById(id);
+            if (material == null) {
+                throw new BusinessException("物资不存在，可能已被删除");
+            }
+            if (material.getAvailableQty() < quantity) {
+                throw new BusinessException("调减失败：可用库存只有 " + material.getAvailableQty()
+                        + " 件，预留和借出的数量不能调减");
+            }
+
+            conn = DBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            int rows = materialDao.reduceTotal(conn, id, quantity);
+            if (rows == 0) {
+                throw new BusinessException("调减失败：可用库存不足");
+            }
+            String finalNote = (note == null || note.trim().isEmpty()) ? "库存调减" : note.trim();
+            stockLogDao.insert(conn, buildLog(id, null, "ADJUST",
+                    -quantity, 0, 0, -quantity, operatorId, finalNote));
+
+            conn.commit();
+        } catch (SQLException e) {
+            rollbackQuietly(conn);
+            throw new BusinessException("调减失败，请稍后再试");
+        } catch (BusinessException e) {
+            rollbackQuietly(conn);
+            throw e;
+        } finally {
+            DBUtil.close(conn);
+        }
+    }
+
     // ================== 借还流程调用：库存条件更新 ==================
 
     /**

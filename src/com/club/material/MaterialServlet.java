@@ -82,6 +82,8 @@ public class MaterialServlet extends HttpServlet {
             changeStatus(request, response);
         } else if ("/stock".equals(path)) {
             addStock(request, response);
+        } else if ("/reduce".equals(path)) {
+            reduceStock(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/material/list");
         }
@@ -242,6 +244,27 @@ public class MaterialServlet extends HttpServlet {
         try {
             service.addStock(id, quantity, admin.getId(), note);
             redirect(request, response, "/material/admin", "入库成功");
+        } catch (BusinessException e) {
+            redirect(request, response, "/material/admin", e.getMessage());
+        }
+    }
+
+    // ======================== 动作：调减 ========================
+
+    private void reduceStock(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        User admin = requireAdmin(request, response);
+        if (admin == null) {
+            return;
+        }
+
+        int id = parseInt(request.getParameter("id"), 0);
+        int quantity = parseInt(request.getParameter("quantity"), 0);
+
+        try {
+            service.reduceStock(id, quantity, admin.getId(), null);
+            redirect(request, response, "/material/admin", "调减成功");
         } catch (BusinessException e) {
             redirect(request, response, "/material/admin", e.getMessage());
         }

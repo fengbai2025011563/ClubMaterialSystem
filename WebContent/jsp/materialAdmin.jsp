@@ -133,8 +133,10 @@
                         <form class="inline-form" method="post" action="<%=ctx%>/material/stock">
                             <input type="hidden" name="id" value="<%=m.getId()%>">
                             <input type="number" class="qty-input" name="quantity"
-                                   value="1" min="1" step="1" title="入库数量">
+                                   value="1" min="1" step="1" title="入库或调减数量">
                             <button type="submit" class="link-btn">入库</button>
+                            <button type="submit" class="link-btn danger"
+                                    formaction="<%=ctx%>/material/reduce">调减</button>
                         </form>
 
                         <form class="inline-form" method="post" action="<%=ctx%>/material/status">
@@ -163,7 +165,7 @@
 
     <p class="hint">
         读数规则：<b>总量 = 可用 + 预留 + 借出</b>，这三列任何时刻都必须加起来等于总量。<br>
-        数量只能通过“入库”“审批通过”“确认借出”“归还”这些动作变化，编辑表单里改不了数量，
+        数量只能通过“入库”“调减”“审批通过”“确认借出”“归还”这些动作变化，编辑表单里改不了数量，
         这样每一次变化都会留下一条流水，月底对账才不会对不上。
     </p>
 </div>
