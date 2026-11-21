@@ -462,50 +462,31 @@ table.list tr:hover td {
 
 /* ============================================================
    校景主题（2026-11-21）
-   背景：北京信息科技大学校园暮色照片
-   目标：页面不再是纯白纸黑字，卡片/表格/按钮统一为玻璃质感
+   背景：北京信息科技大学校门实景图，原图直接铺满页面
+   约束：不加蒙层、不虚化、不设透明度，照片保持原样
+   内容区统一使用不透明白底，保证文字可读
    ============================================================ */
 
 html {
     background-color: #eef2f0;
-    background-image:
-        linear-gradient(180deg,
-            rgba(244, 247, 245, 0.52) 0%,
-            rgba(244, 247, 245, 0.68) 40%,
-            rgba(244, 247, 245, 0.86) 100%),
-        url("../images/campus-dusk.jpg");
-    background-position: center, center top;
-    background-size: cover, cover;
-    background-repeat: no-repeat, no-repeat;
-    background-attachment: fixed, fixed;
+    background-image: url("../images/campus-gate.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 body {
     background: transparent;
 }
 
-/* 右下角校名水印 */
-body::after {
-    content: "北京信息科技大学";
-    position: fixed;
-    right: 22px;
-    bottom: 12px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    color: rgba(31, 95, 79, 0.36);
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* 顶部栏：半透明玻璃 + 吸顶 */
+/* 顶部栏：实色吸顶 */
 .topbar {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: linear-gradient(135deg, rgba(22, 84, 70, 0.95), rgba(15, 58, 50, 0.92));
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+    background: #14564a;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
 }
 
 .topbar-inner {
@@ -520,16 +501,14 @@ body::after {
     letter-spacing: 1.5px;
 }
 
-/* 卡片 / 工具条 / 表单：白色玻璃 */
+/* 卡片 / 工具条 / 表单：不透明白底 */
 .card,
 .toolbar,
 .form-card {
-    background: rgba(255, 255, 255, 0.9);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: #ffffff;
+    border: 1px solid #e3eae6;
     border-radius: 14px;
-    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
 }
 
 .form-card {
@@ -549,7 +528,7 @@ table.list td {
 }
 
 table.list tr:hover td {
-    background: rgba(231, 244, 238, 0.72);
+    background: #f2f7f5;
 }
 
 /* 按钮 */
@@ -583,7 +562,7 @@ input[type="date"],
 select,
 textarea {
     border-radius: 9px;
-    background: rgba(255, 255, 255, 0.94);
+    background: #ffffff;
 }
 
 input[type="text"]:focus,
@@ -607,13 +586,19 @@ textarea:focus {
 
 /* 库存摘要 */
 .summary .box {
-    background: rgba(255, 255, 255, 0.74);
-    border: 1px solid rgba(31, 95, 79, 0.12);
+    background: #ffffff;
+    border: 1px solid #e3eae6;
     border-radius: 12px;
 }
 
+/* 页面标题条：白底，压住照片保证标题可读 */
 .page-head {
-    border-bottom: 2px solid rgba(31, 95, 79, 0.45);
+    background: #ffffff;
+    border-bottom: 2px solid #1f5f4f;
+    border-radius: 12px 12px 0 0;
+    padding: 14px 18px 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
 }
 
 .page-head h1 {
@@ -621,13 +606,29 @@ textarea:focus {
 }
 
 .msg {
-    background: rgba(231, 244, 238, 0.92);
-    border-color: rgba(31, 95, 79, 0.24);
+    background: #e7f4ee;
+    border-color: #9fd0bc;
 }
 
 .msg-error {
-    background: rgba(253, 240, 238, 0.94);
-    border-color: rgba(163, 58, 40, 0.22);
+    background: #fdf0ee;
+    border-color: #e5b7ae;
+}
+
+/* 底部提示与页脚：白底 */
+.hint {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.footer {
+    background: #ffffff;
+    border-top: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
 }
 
 .empty {
@@ -651,9 +652,5 @@ textarea:focus {
     .form-row > label {
         width: auto;
         padding: 0 0 4px;
-    }
-
-    body::after {
-        display: none;
     }
 }
