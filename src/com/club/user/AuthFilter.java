@@ -30,7 +30,10 @@ public class AuthFilter implements Filter {
 
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
-        if (path.equals("/login") || path.startsWith("/css/") || path.equals("/favicon.ico")) {
+        if (path.equals("/login")
+                || path.startsWith("/css/")
+                || path.startsWith("/images/")
+                || path.equals("/favicon.ico")) {
             chain.doFilter(request, response);
             return;
         }
