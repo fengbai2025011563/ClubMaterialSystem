@@ -470,11 +470,11 @@ html {
     background-color: #eef2f0;
     background-image:
         linear-gradient(180deg,
-            rgba(244, 247, 245, 0.40) 0%,
-            rgba(244, 247, 245, 0.56) 42%,
-            rgba(244, 247, 245, 0.80) 100%),
+            rgba(244, 247, 245, 0.10) 0%,
+            rgba(244, 247, 245, 0.20) 42%,
+            rgba(244, 247, 245, 0.42) 100%),
         url("../images/campus-bg.jpg");
-    background-position: center, center;
+    background-position: center, right bottom;
     background-size: cover, cover;
     background-repeat: no-repeat, no-repeat;
     background-attachment: fixed, fixed;
@@ -605,6 +605,11 @@ textarea:focus {
 
 .page-head h1 {
     letter-spacing: 0.5px;
+}
+
+.page-head h1,
+.page-head .sub {
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95);
 }
 
 .msg {
