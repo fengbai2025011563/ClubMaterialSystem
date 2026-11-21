@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>新建申请</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/material.css">
     <style>
         body { font-family: "Microsoft YaHei", sans-serif; margin: 24px; color: #1f2937; }
         h2 { border-left: 4px solid #0e7490; padding-left: 10px; }
@@ -27,6 +28,7 @@
     </style>
 </head>
 <body>
+<div class="wrap"><div class="card" style="padding:26px 30px;">
 
 <h2>新建申请</h2>
 
@@ -95,5 +97,6 @@
     </div>
 </form>
 
+</div></div>
 </body>
 </html>

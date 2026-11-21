@@ -394,7 +394,7 @@ table.list tr:hover td {
 .form-row .field input[type="text"],
 .form-row .field textarea {
     width: 100%;
-    max-width: 460px;
+    max-width: 620px;
 }
 
 .form-row .field input[type="number"] {
@@ -458,4 +458,202 @@ table.list tr:hover td {
     margin: 0 0 12px;
     padding-left: 9px;
     border-left: 3px solid #1f5f4f;
+}
+
+/* ============================================================
+   校景主题（2026-11-21）
+   背景：北京信息科技大学校园暮色照片
+   目标：页面不再是纯白纸黑字，卡片/表格/按钮统一为玻璃质感
+   ============================================================ */
+
+html {
+    background-color: #eef2f0;
+    background-image:
+        linear-gradient(180deg,
+            rgba(244, 247, 245, 0.52) 0%,
+            rgba(244, 247, 245, 0.68) 40%,
+            rgba(244, 247, 245, 0.86) 100%),
+        url("../images/campus-dusk.jpg");
+    background-position: center, center top;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+}
+
+body {
+    background: transparent;
+}
+
+/* 右下角校名水印 */
+body::after {
+    content: "北京信息科技大学";
+    position: fixed;
+    right: 22px;
+    bottom: 12px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: rgba(31, 95, 79, 0.36);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* 顶部栏：半透明玻璃 + 吸顶 */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(135deg, rgba(22, 84, 70, 0.95), rgba(15, 58, 50, 0.92));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+}
+
+.topbar-inner {
+    width: min(1120px, calc(100% - 48px));
+}
+
+.wrap {
+    width: min(1120px, calc(100% - 48px));
+}
+
+.brand {
+    letter-spacing: 1.5px;
+}
+
+/* 卡片 / 工具条 / 表单：白色玻璃 */
+.card,
+.toolbar,
+.form-card {
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 14px;
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.1);
+}
+
+.form-card {
+    padding: 28px 32px;
+}
+
+/* 表格 */
+table.list th {
+    background: linear-gradient(180deg, rgba(31, 95, 79, 0.14), rgba(31, 95, 79, 0.05));
+    color: #26473e;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+table.list td {
+    border-bottom: 1px solid rgba(31, 95, 79, 0.08);
+}
+
+table.list tr:hover td {
+    background: rgba(231, 244, 238, 0.72);
+}
+
+/* 按钮 */
+.btn,
+.btn-primary,
+.btn-ghost,
+.btn-danger {
+    border-radius: 9px;
+    transition: all 0.18s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1f7a64, #145c49);
+    box-shadow: 0 8px 18px rgba(31, 95, 79, 0.22);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #238a70, #17654f);
+    transform: translateY(-1px);
+}
+
+.btn:hover,
+.btn-ghost:hover {
+    transform: translateY(-1px);
+}
+
+/* 表单控件 */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.94);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #2f7f68;
+    box-shadow: 0 0 0 3px rgba(47, 127, 104, 0.14);
+}
+
+.form-row > label {
+    width: 110px;
+    font-weight: 600;
+    color: #2b4a41;
+}
+
+.form-actions {
+    border-top: 1px solid rgba(31, 95, 79, 0.12);
+}
+
+/* 库存摘要 */
+.summary .box {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(31, 95, 79, 0.12);
+    border-radius: 12px;
+}
+
+.page-head {
+    border-bottom: 2px solid rgba(31, 95, 79, 0.45);
+}
+
+.page-head h1 {
+    letter-spacing: 0.5px;
+}
+
+.msg {
+    background: rgba(231, 244, 238, 0.92);
+    border-color: rgba(31, 95, 79, 0.24);
+}
+
+.msg-error {
+    background: rgba(253, 240, 238, 0.94);
+    border-color: rgba(163, 58, 40, 0.22);
+}
+
+.empty {
+    color: #5d6f68;
+}
+
+@media (max-width: 720px) {
+    .topbar-inner,
+    .wrap {
+        width: calc(100% - 24px);
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row > label {
+        width: auto;
+        padding: 0 0 4px;
+    }
+
+    body::after {
+        display: none;
+    }
 }
