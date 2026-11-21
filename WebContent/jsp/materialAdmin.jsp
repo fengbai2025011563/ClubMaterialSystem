@@ -41,6 +41,7 @@
                 </span>
             <% } %>
             <a href="<%=ctx%>/material/admin">物资管理</a>
+            <a href="<%=ctx%>/admin/applications">申请管理</a>
             <a href="<%=ctx%>/material/list">物资浏览</a>
         </div>
     </div>
@@ -166,12 +167,6 @@
         数量只能通过“入库”“审批通过”“确认借出”“归还”这些动作变化，编辑表单里改不了数量，
         这样每一次变化都会留下一条流水，月底对账才不会对不上。
     </p>
-</div>
-
-<div class="footer">
-    【调试入口，正式登录上线后删除】模拟登录：
-    <a href="<%=ctx%>/dev-login?as=admin">管理员</a>
-    <a href="<%=ctx%>/dev-login?as=member">普通成员</a>
 </div>
 
 </body>

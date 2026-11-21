@@ -37,6 +37,9 @@
             <% } %>
             <% if (loginUser != null && loginUser.isAdmin()) { %>
                 <a href="<%=ctx%>/material/admin">物资管理</a>
+                <a href="<%=ctx%>/admin/applications">申请管理</a>
+            <% } else if (loginUser != null) { %>
+                <a href="<%=ctx%>/applications">我的申请</a>
             <% } %>
             <a href="<%=ctx%>/material/list">物资浏览</a>
         </div>
@@ -122,12 +125,6 @@
         小提示：<b>可借数量</b>才是现在真正能借走的数量；<b>库存总量</b>由“可用＋预留＋借出”三部分组成，
         已经被审批占用或者正在别人手里的部分不会出现在可借数量里。
     </p>
-</div>
-
-<div class="footer">
-    【调试入口，正式登录上线后删除】模拟登录：
-    <a href="<%=ctx%>/dev-login?as=admin">管理员</a>
-    <a href="<%=ctx%>/dev-login?as=member">普通成员</a>
 </div>
 
 </body>

@@ -3,9 +3,10 @@ package com.club.application.service;
 import com.club.application.bean.ApplicationItem;
 import com.club.application.bean.LoanApplication;
 import com.club.application.dao.ApplicationDao;
-import com.club.application.temp.BusinessException;
-import com.club.application.temp.TempDBUtil;
-import com.club.application.temp.TempMaterialService;
+import com.club.common.BusinessException;
+import com.club.common.DBUtil;
+import com.club.material.Material;
+import com.club.material.MaterialDao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +16,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,18 +25,17 @@ import java.util.Set;
 public class ApplicationService {
 
     private final ApplicationDao dao = new ApplicationDao();
-    /* 【临时】stu2 的 MaterialService 到位后替换 */
-    private final TempMaterialService materialService = new TempMaterialService();
+    private final MaterialDao materialDao = new MaterialDao();
 
     /* 创建申请（含单头 + 明细），事务包裹 */
     public void create(int applicantId, LoanApplication app, List<ApplicationItem> items) {
         validate(app, items);                       // 纯校验，不碰库
         app.setApplicantId(applicantId);
 
-        try (Connection conn = TempDBUtil.getConnection()) {
+        try (Connection conn = DBUtil.getConnection()) {
             conn.setAutoCommit(false);
             try {
-                checkAvailable(conn, items);        // 提示性库存校验，仍在同一事务内
+                checkAvailable(items);        // 提示性库存校验，仍在同一事务内
                 int id = dao.insert(conn, app);     // 单头
                 dao.insertItems(conn, id, items);   // 明细
                 conn.commit();
@@ -59,7 +58,7 @@ public class ApplicationService {
 
     /* 查我的申请列表 */
     public List<LoanApplication> listMine(int applicantId, String status) {
-        try (Connection conn = TempDBUtil.getConnection()) {
+        try (Connection conn = DBUtil.getConnection()) {
             return dao.findByApplicant(conn, applicantId, status);
         } catch (SQLException e) {
             throw new BusinessException("查询申请列表失败", e);
@@ -68,7 +67,7 @@ public class ApplicationService {
 
     /* 查单头详情；非本人访问抛 BusinessException */
     public LoanApplication detail(int applicationId, int applicantId) {
-        try (Connection conn = TempDBUtil.getConnection()) {
+        try (Connection conn = DBUtil.getConnection()) {
             LoanApplication app = dao.findById(conn, applicationId);
             if (app == null) {
                 throw new BusinessException("申请不存在");
@@ -84,7 +83,7 @@ public class ApplicationService {
 
     /* 查明细 */
     public List<ApplicationItem> items(int applicationId) {
-        try (Connection conn = TempDBUtil.getConnection()) {
+        try (Connection conn = DBUtil.getConnection()) {
             return dao.findItems(conn, applicationId);
         } catch (SQLException e) {
             throw new BusinessException("查询物资明细失败", e);
@@ -93,7 +92,7 @@ public class ApplicationService {
 
     /* 本人撤回 PENDING 的申请；状态已变返回"已被处理" */
     public void cancel(int applicationId, int applicantId) {
-        try (Connection conn = TempDBUtil.getConnection()) {
+        try (Connection conn = DBUtil.getConnection()) {
             int affected = dao.cancel(conn, applicationId, applicantId);
             if (affected == 0) {
                 throw new BusinessException("该申请已被处理");
@@ -166,22 +165,16 @@ public class ApplicationService {
     }
 
     /* 提示性库存校验：数量不得超过当前可用量 */
-    private void checkAvailable(Connection conn, List<ApplicationItem> items) throws SQLException {
-        List<Integer> ids = new ArrayList<>();
+    private void checkAvailable(List<ApplicationItem> items) throws SQLException {
         for (ApplicationItem item : items) {
-            ids.add(item.getMaterialId());
-        }
-        Map<Integer, Integer> availableMap = materialService.loadAvailableByIds(ids);
-        Map<Integer, String> nameMap = materialService.loadNameByIds(ids);
-        for (ApplicationItem item : items) {
-            Integer available = availableMap.get(item.getMaterialId());
-            String name = nameMap.getOrDefault(item.getMaterialId(), "编号 " + item.getMaterialId());
-            if (available == null) {
-                throw new BusinessException("物资「" + name + "」不存在或已停用");
+            Material material = materialDao.findById(item.getMaterialId());
+            if (material == null || !"ACTIVE".equals(material.getStatus())) {
+                throw new BusinessException("物资「编号 " + item.getMaterialId() + "」不存在或已停用");
             }
+            int available = material.getAvailableQty();
             if (item.getQuantity() > available) {
-                throw new BusinessException("物资「" + name + "」当前可用 " + available + "，不能借出 "
-                        + item.getQuantity());
+                throw new BusinessException("物资「" + material.getName() + "」当前可用 " + available
+                        + "，不能借出 " + item.getQuantity());
             }
         }
     }
