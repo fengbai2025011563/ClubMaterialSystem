@@ -24,7 +24,7 @@
         <div class="msg-error">${error}</div>
     </c:if>
 
-    <form class="form-card" method="post" action="${pageContext.request.contextPath}/applications/create">
+    <form class="form-card" id="applyForm" method="post" action="${pageContext.request.contextPath}/applications/create">
         <%-- 防重复提交：与 loan_applications.client_token 唯一键配合 --%>
         <input type="hidden" name="clientToken" value="${clientToken}">
 
@@ -74,6 +74,9 @@
                                     <option value="">— 请选择 —</option>
                                     <c:forEach var="m" items="${materials}">
                                         <option value="${m.id}"
+                                                data-name="${m.name}"
+                                                data-available="${m.availableQty}"
+                                                data-unit="${m.unit}"
                                             <c:if test="${not empty formItems and formItems[i].materialId == m.id}">selected</c:if>>
                                             ${m.name}（可用 ${m.availableQty}${m.unit}）
                                         </option>
@@ -99,6 +102,36 @@
         </div>
     </form>
 </div>
+
+<script>
+// 提交前先自己检查一遍数量：超过当前可用量就弹窗拦下，不用等服务器返回错误
+document.getElementById('applyForm').addEventListener('submit', function (event) {
+    var selects = document.querySelectorAll('select[name="materialId"]');
+    for (var i = 0; i < selects.length; i++) {
+        var select = selects[i];
+        if (!select.value) {
+            continue;
+        }
+        var row = select.closest('tr');
+        var qtyInput = row ? row.querySelector('input[name="quantity"]') : null;
+        var quantity = qtyInput ? parseInt(qtyInput.value, 10) : 0;
+        if (!quantity) {
+            continue;
+        }
+        var option = select.options[select.selectedIndex];
+        var available = parseInt(option.getAttribute('data-available'), 10);
+        if (quantity > available) {
+            var unit = option.getAttribute('data-unit');
+            alert('「' + option.getAttribute('data-name') + '」当前可用 '
+                + available + unit + '，你填写了 ' + quantity + unit
+                + '，请把数量改小一些。');
+            qtyInput.focus();
+            event.preventDefault();
+            return;
+        }
+    }
+});
+</script>
 
 </body>
 </html>

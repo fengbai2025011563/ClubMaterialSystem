@@ -17,8 +17,11 @@
 <div class="topbar">
     <div class="topbar-inner">
         <a class="brand" href="<%=navCtx%>/material/list">
-            <span class="brand-name">社团活动物资借还系统</span>
-            <span class="brand-sub">北京信息科技大学 · 社团物资借用与归还</span>
+            <img class="brand-logo" src="<%=navCtx%>/images/bistu-logo-white.png" alt="北京信息科技大学">
+            <span class="brand-text">
+                <span class="brand-name">社团活动物资借还系统</span>
+                <span class="brand-sub">北京信息科技大学 · 社团物资借用与归还</span>
+            </span>
         </a>
         <div class="topbar-links">
             <% if (navUser != null) { %>

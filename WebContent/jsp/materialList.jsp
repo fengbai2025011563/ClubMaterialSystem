@@ -32,7 +32,6 @@
     <div class="page-head">
         <div>
             <h1>物资浏览</h1>
-            <div class="sub">确认有没有、够不够借，再提交申请</div>
         </div>
         <form class="head-tools" method="get" action="<%=ctx%>/material/list">
             <input type="text" name="keyword" placeholder="搜索物资名称"

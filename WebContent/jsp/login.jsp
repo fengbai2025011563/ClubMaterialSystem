@@ -6,6 +6,7 @@
 <%
     String ctx = request.getContextPath();
     String error = (String) request.getAttribute("error");
+    String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -33,11 +34,8 @@
       color: #fff;
     }
     .login-logo {
-      width: 38px; height: 38px;
-      border: 2px solid rgba(255,255,255,.9);
-      border-radius: 50%;
-      display: grid; place-items: center;
-      font-size: 17px; font-weight: 700;
+      width: 42px; height: 42px;
+      display: block;
       flex: none;
     }
     .login-title {
@@ -149,6 +147,24 @@
       font-size: 13px;
     }
 
+    .login-ok {
+      margin-top: 12px;
+      padding: 8px 11px;
+      background: #eefaf3;
+      color: #1a7f4b;
+      border: 1px solid #a9d8bf;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+
+    .login-register {
+      margin-top: 14px;
+      text-align: right;
+      font-size: 13px;
+    }
+    .login-register a { color: #0f4c9c; text-decoration: none; }
+    .login-register a:hover { text-decoration: underline; }
+
     .login-warn {
       margin-top: 18px;
       padding-top: 14px;
@@ -173,7 +189,7 @@
 <body>
 
 <div class="login-top">
-  <div class="login-logo">物</div>
+  <img class="login-logo" src="<%=ctx%>/images/bistu-logo-white.png" alt="北京信息科技大学">
   <div class="login-title">
     北京信息科技大学 · 社团活动物资借还系统
     <small>CLUB MATERIAL BORROWING &amp; RETURN SYSTEM</small>
@@ -193,6 +209,10 @@
       <div class="login-error"><%= error %></div>
     <% } %>
 
+    <% if ("register".equals(msg)) { %>
+      <div class="login-ok">注册成功，请使用刚设置的密码登录。</div>
+    <% } %>
+
     <form method="post" action="<%=ctx%>/login">
       <label for="username">学号 / 账号</label>
       <input id="username" type="text" name="username" autocomplete="username" autofocus
@@ -204,6 +224,10 @@
 
       <button type="submit">登 录</button>
     </form>
+
+    <div class="login-register">
+      还没有账号？<a href="<%=ctx%>/register">注册一个</a>
+    </div>
 
     <div class="login-warn">
       <b>请勿将账号借给他人使用</b>
