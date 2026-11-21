@@ -28,21 +28,7 @@
 </head>
 <body>
 
-<div class="topbar">
-    <div class="topbar-inner">
-        <div class="brand">社团活动物资借还系统<span>物资库</span></div>
-        <div>
-            <% if (loginUser != null) { %>
-                <span style="font-size:13px;color:#d9efe7;">
-                    <%= MaterialServlet.escape(loginUser.getRealName()) %>（<%= loginUser.getRoleText() %>）
-                </span>
-            <% } %>
-            <a href="<%=ctx%>/material/admin">物资管理</a>
-            <a href="<%=ctx%>/admin/applications">申请管理</a>
-            <a href="<%=ctx%>/material/list">物资浏览</a>
-        </div>
-    </div>
-</div>
+<%@ include file="/jsp/common/header.jsp" %>
 
 <div class="wrap">
     <div class="page-head">

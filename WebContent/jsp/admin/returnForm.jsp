@@ -13,15 +13,7 @@
   <link rel="stylesheet" href="<%=ctx%>/css/material.css">
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">社团活动物资借还系统<span>归还验收</span></div>
-    <div style="margin-left:auto">
-      <a href="<%=ctx%>/admin/applications?status=BORROWED">待归还</a>
-      <a href="<%=ctx%>/logout">退出</a>
-    </div>
-  </div>
-</div>
+<%@ include file="/jsp/common/header.jsp" %>
 
 <div class="wrap">
   <div class="page-head">

@@ -44,6 +44,9 @@ public class ApplicationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        if (redirectAdmin(req, resp)) {
+            return;
+        }
         String path = pathOf(req);
         switch (path) {
             case "/applications":
@@ -65,6 +68,9 @@ public class ApplicationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        if (redirectAdmin(req, resp)) {
+            return;
+        }
         String path = pathOf(req);
         switch (path) {
             case "/applications/create":
@@ -77,6 +83,20 @@ public class ApplicationServlet extends HttpServlet {
                 resp.sendError(404);
                 break;
         }
+    }
+
+    /**
+     * 管理员只做管理，不参与申请：访问 /applications* 直接送回审批列表。
+     * 登录态由 AuthFilter 保证，这里只判断角色。
+     */
+    private boolean redirectAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession(false);
+        User user = session == null ? null : (User) session.getAttribute("loginUser");
+        if (user != null && user.isAdmin()) {
+            resp.sendRedirect(req.getContextPath() + "/admin/applications");
+            return true;
+        }
+        return false;
     }
 
     private String pathOf(HttpServletRequest req) {

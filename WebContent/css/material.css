@@ -1,656 +1,457 @@
-/*
- * 物资模块样式文件。
- * 归属：刘艳（物资维护与库存）。
- * 正式合并时，公共样式（顶部导航、按钮基础样式）以晏思汗的 app.css 为准，
- * 这里只保留物资模块自己的表格、库存数字、状态标签等规则。
- */
+/* ============================================================
+   社团活动物资借还系统 · 全站样式
+   风格：参考北京信息科技大学教务处官网
+        —— 深蓝顶栏 + 白色主导航 + 白卡表格 + 蓝色文字链接
+   规则：一页最多两个主体块，去掉多余装饰，留白为主
+   ============================================================ */
 
-* {
-    box-sizing: border-box;
+:root {
+    --blue: #0f4c9c;
+    --blue-dark: #0a3b7d;
+    --blue-light: #eef4fc;
+    --ink: #1f2d3d;
+    --muted: #6b7a8c;
+    --line: #e4e9f0;
+    --bg: #f5f7fa;
+    --danger: #b3261e;
 }
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
-    padding: 0;
-    background: #f4f6f5;
-    color: #22302b;
-    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
 }
 
-/* ---------- 顶部栏 ---------- */
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
+/* ---------- 顶部：蓝色品牌栏 + 导航 ---------- */
 .topbar {
-    background: #1f5f4f;
-    color: #ffffff;
-    padding: 14px 0;
+    background: var(--blue);
+    color: #fff;
 }
 
 .topbar-inner {
-    width: 1080px;
+    max-width: 1120px;
     margin: 0 auto;
+    padding: 14px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .brand {
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.brand span {
-    font-size: 13px;
-    font-weight: normal;
-    opacity: 0.8;
-    margin-left: 10px;
-}
-
-.topbar a {
-    color: #d9efe7;
+    color: #fff;
     text-decoration: none;
-    margin-left: 18px;
-    font-size: 13px;
+}
+.brand:hover { text-decoration: none; }
+.brand-name {
+    display: block;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.brand-sub {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, .72);
 }
 
-.topbar a:hover {
-    color: #ffffff;
-    text-decoration: underline;
+.topbar-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
 }
+.topbar-links a { color: rgba(255, 255, 255, .88); }
+.topbar-links a:hover { color: #fff; text-decoration: none; }
+.topbar .who { color: rgba(255, 255, 255, .85); }
+
+.main-nav {
+    background: var(--blue-dark);
+}
+.main-nav ul {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px;
+    list-style: none;
+    display: flex;
+}
+.main-nav li a {
+    display: block;
+    padding: 10px 24px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, .88);
+    text-decoration: none;
+}
+.main-nav li a:hover { color: #fff; text-decoration: none; }
+.main-nav li.active a { background: var(--blue); color: #fff; }
 
 /* ---------- 页面容器 ---------- */
-
 .wrap {
-    width: 1080px;
-    margin: 26px auto 40px;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 22px 20px 40px;
 }
 
+/* 页面标题条：白卡，左侧标题，右侧操作 */
 .page-head {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid #1f5f4f;
-    padding-bottom: 10px;
-    margin-bottom: 18px;
+    gap: 16px;
 }
-
 .page-head h1 {
     margin: 0;
     font-size: 20px;
-    font-weight: bold;
+    letter-spacing: 1px;
 }
-
 .page-head .sub {
-    color: #6b7c76;
-    font-size: 12px;
-    margin-top: 4px;
+    margin-top: 3px;
+    font-size: 13px;
+    color: var(--muted);
 }
 
-/* ---------- 提示条 ---------- */
+/* 标题条右侧的查询表单 */
+.head-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.head-tools input[type="text"] { width: 200px; }
 
+/* ---------- 提示消息 ---------- */
 .msg,
 .msg-error {
     padding: 10px 14px;
     border-radius: 4px;
+    font-size: 14px;
     margin-bottom: 14px;
-    font-size: 13px;
 }
-
 .msg {
-    background: #e7f4ee;
-    border: 1px solid #b9dfcd;
-    color: #1f5f4f;
+    background: #eefaf3;
+    border: 1px solid #a9d8bf;
+    color: #1a7f4b;
 }
-
 .msg-error {
     background: #fdf0ee;
-    border: 1px solid #f2c4bc;
-    color: #a33a28;
+    border: 1px solid #e5b7ae;
+    color: var(--danger);
 }
 
-/* ---------- 工具条与表单控件 ---------- */
-
+/* ---------- 查询条 ---------- */
 .toolbar {
-    background: #ffffff;
-    border: 1px solid #e0e6e3;
-    border-radius: 6px;
-    padding: 12px 14px;
-    margin-bottom: 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
 }
-
 .toolbar label {
-    color: #55645e;
+    color: #4a5a6e;
     font-size: 13px;
+    margin-right: -4px;
 }
+.toolbar .grow { flex: 1; min-width: 180px; }
+.toolbar input[type="text"] { width: 230px; }
 
-input[type="text"],
-input[type="number"],
-select,
-textarea {
-    border: 1px solid #cfd8d4;
-    border-radius: 4px;
-    padding: 6px 9px;
-    font-size: 13px;
-    font-family: inherit;
-    color: #22302b;
-    background: #ffffff;
-    outline: none;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #2f7f68;
-    box-shadow: 0 0 0 2px rgba(47, 127, 104, 0.12);
-}
-
-.qty-input {
-    width: 64px;
-}
-
-.grow {
-    flex: 1;
-}
-
-/* ---------- 按钮 ---------- */
-
-.btn,
-.btn-primary,
-.btn-ghost,
-.btn-danger {
-    display: inline-block;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1.4;
-}
-
-.btn-primary {
-    background: #1f5f4f;
-    color: #ffffff;
-}
-
-.btn-primary:hover {
-    background: #184b3e;
-}
-
-.btn {
-    background: #ffffff;
-    border-color: #cfd8d4;
-    color: #33443d;
-}
-
-.btn:hover {
-    border-color: #2f7f68;
-    color: #1f5f4f;
-}
-
-.btn-ghost {
-    background: transparent;
-    color: #2f7f68;
-    border-color: #bfd6cd;
-}
-
-.btn-ghost:hover {
-    background: #e7f4ee;
-}
-
-.btn-danger {
-    background: #ffffff;
-    border-color: #e5b7ae;
-    color: #a33a28;
-}
-
-.btn-danger:hover {
-    background: #fdf0ee;
-}
-
-.link-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #2f7f68;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.link-btn.danger {
-    color: #a33a28;
-}
-
-.inline-form {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 0 6px 0 0;
-}
-
-/* ---------- 表格 ---------- */
-
+/* ---------- 白卡与表格 ---------- */
 .card {
-    background: #ffffff;
-    border: 1px solid #e0e6e3;
-    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 16px;
     overflow: hidden;
 }
 
 table.list {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
 }
-
 table.list th {
-    background: #eef4f1;
-    color: #3b4d46;
+    background: #f8fafd;
+    color: #4a5a6e;
+    font-size: 13px;
+    font-weight: 600;
     text-align: left;
-    font-weight: normal;
-    padding: 10px 12px;
-    border-bottom: 1px solid #dbe4df;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line);
     white-space: nowrap;
 }
-
 table.list td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #eef1ef;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
     vertical-align: middle;
 }
+table.list tr:last-child td { border-bottom: 0; }
+table.list tr:hover td { background: #fafcff; }
+table.list th.num,
+table.list td.num { text-align: right; }
+table.list td.name-cell { font-weight: 600; }
+.num { color: var(--blue); font-weight: 700; }
+.muted { color: var(--muted); }
 
-table.list tr:last-child td {
-    border-bottom: none;
-}
-
-table.list tr:hover td {
-    background: #f8fbfa;
-}
-
-.num {
-    font-variant-numeric: tabular-nums;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.name-cell {
-    font-weight: bold;
-    color: #1e2d27;
-}
-
-.muted {
-    color: #8a9993;
-    font-size: 12px;
-}
-
-.actions {
-    white-space: nowrap;
-}
-
-/* ---------- 状态标签 ---------- */
-
+/* 状态标签 */
 .pill {
     display: inline-block;
-    padding: 1px 9px;
-    border-radius: 10px;
+    padding: 0 9px;
     font-size: 12px;
-    line-height: 1.7;
+    line-height: 20px;
+    border-radius: 2px;
+    border: 1px solid #cfd8e3;
+    color: #4a5a6e;
+    background: #f6f8fb;
+    white-space: nowrap;
 }
+.pill-active { color: #1a7f4b; background: #eefaf3; border-color: #a9d8bf; }
+.pill-inactive { color: #6b7a8c; background: #f4f6f9; border-color: #d6dee8; }
 
-.pill-active {
-    background: #e7f4ee;
-    color: #1f5f4f;
-    border: 1px solid #b9dfcd;
-}
-
-.pill-inactive {
-    background: #f1f3f2;
-    color: #7d8b85;
-    border: 1px solid #d9e0dc;
-}
-
-/* ---------- 空状态 ---------- */
-
-.empty {
-    padding: 48px 20px;
-    text-align: center;
-    color: #8a9993;
-    font-size: 13px;
-}
-
-.empty strong {
-    display: block;
-    color: #55645e;
-    font-size: 15px;
-    margin-bottom: 6px;
-}
-
-/* ---------- 说明文字 ---------- */
-
-.hint {
-    margin: 12px 0 0;
-    color: #7d8b85;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-.hint b {
-    color: #3b4d46;
-}
-
-.footer {
-    width: 1080px;
-    margin: 0 auto 30px;
-    color: #97a49f;
-    font-size: 12px;
-    border-top: 1px dashed #dbe4df;
-    padding-top: 12px;
-}
-
-.footer a {
-    color: #2f7f68;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-/* ---------- 表单页 ---------- */
-
-.form-card {
-    background: #ffffff;
-    border: 1px solid #e0e6e3;
-    border-radius: 6px;
-    padding: 22px 26px;
-    margin-bottom: 18px;
-}
-
-.form-row {
+/* 行内操作 */
+.actions {
     display: flex;
-    align-items: flex-start;
-    margin-bottom: 16px;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-
-.form-row > label {
-    width: 96px;
-    flex: none;
-    padding-top: 7px;
-    color: #3b4d46;
+.link-btn {
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--blue);
     font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.link-btn:hover { text-decoration: underline; }
+.link-btn.danger { color: var(--danger); }
+.inline-form { display: inline-flex; align-items: center; gap: 4px; margin: 0; }
+.qty-input {
+    width: 56px;
+    padding: 3px 6px;
+    border: 1px solid #cfd8e3;
+    border-radius: 3px;
+    font-size: 13px;
+    font-family: inherit;
 }
 
-.form-row .field {
-    flex: 1;
-}
-
-.form-row .field input[type="text"],
-.form-row .field textarea {
-    width: 100%;
-    max-width: 620px;
-}
-
-.form-row .field input[type="number"] {
-    width: 140px;
-}
-
-.form-tip {
-    color: #8a9993;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
-.req {
-    color: #c0492f;
-    margin-left: 2px;
-}
-
-.form-actions {
-    border-top: 1px solid #eef1ef;
-    padding-top: 16px;
-    margin-top: 6px;
-}
-
-/* 编辑页顶部的库存摘要 */
-
-.summary {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-.summary .box {
-    flex: 1;
-    background: #f6f9f7;
-    border: 1px solid #e3eae6;
-    border-radius: 6px;
-    padding: 12px 14px;
-    text-align: center;
-}
-
-.summary .box .label {
-    color: #7d8b85;
-    font-size: 12px;
-}
-
-.summary .box .value {
-    font-size: 22px;
-    font-weight: bold;
-    color: #1f5f4f;
-    font-variant-numeric: tabular-nums;
-}
-
-.summary .box .value.plain {
-    color: #3b4d46;
-}
-
-.section-title {
-    font-size: 15px;
-    font-weight: bold;
-    color: #1e2d27;
-    margin: 0 0 12px;
-    padding-left: 9px;
-    border-left: 3px solid #1f5f4f;
-}
-
-/* ============================================================
-   校景主题（2026-11-21）
-   背景：北京信息科技大学校门实景图，原图直接铺满页面
-   约束：不加蒙层、不虚化、不设透明度，照片保持原样
-   内容区统一使用不透明白底，保证文字可读
-   ============================================================ */
-
-html {
-    background-color: #eef2f0;
-    background-image: url("../images/campus-gate.png");
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-body {
-    background: transparent;
-}
-
-/* 顶部栏：实色吸顶 */
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: #14564a;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
-}
-
-.topbar-inner {
-    width: min(1120px, calc(100% - 48px));
-}
-
-.wrap {
-    width: min(1120px, calc(100% - 48px));
-}
-
-.brand {
-    letter-spacing: 1.5px;
-}
-
-/* 卡片 / 工具条 / 表单：不透明白底 */
-.card,
-.toolbar,
-.form-card {
-    background: #ffffff;
-    border: 1px solid #e3eae6;
-    border-radius: 14px;
-    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
-}
-
-.form-card {
-    padding: 28px 32px;
-}
-
-/* 表格 */
-table.list th {
-    background: linear-gradient(180deg, rgba(31, 95, 79, 0.14), rgba(31, 95, 79, 0.05));
-    color: #26473e;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-}
-
-table.list td {
-    border-bottom: 1px solid rgba(31, 95, 79, 0.08);
-}
-
-table.list tr:hover td {
-    background: #f2f7f5;
-}
-
-/* 按钮 */
+/* ---------- 按钮 ---------- */
 .btn,
 .btn-primary,
 .btn-ghost,
 .btn-danger {
-    border-radius: 9px;
-    transition: all 0.18s ease;
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 13px;
+    border-radius: 3px;
+    border: 1px solid var(--blue);
+    background: #fff;
+    color: var(--blue);
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    white-space: nowrap;
 }
-
+.btn:hover { background: var(--blue-light); text-decoration: none; }
 .btn-primary {
-    background: linear-gradient(135deg, #1f7a64, #145c49);
-    box-shadow: 0 8px 18px rgba(31, 95, 79, 0.22);
+    background: var(--blue);
+    color: #fff;
+}
+.btn-primary:hover { background: var(--blue-dark); text-decoration: none; }
+.btn-ghost { border-color: var(--line); color: #4a5a6e; }
+.btn-ghost:hover { background: #f6f8fb; text-decoration: none; }
+.btn-danger {
+    background: #fff;
+    color: var(--danger);
+    border-color: #e5b7ae;
+}
+.btn-danger:hover { background: #fdf0ee; text-decoration: none; }
+
+/* ---------- 空状态与提示 ---------- */
+.empty {
+    padding: 34px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+.empty strong {
+    display: block;
+    color: var(--ink);
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+.hint {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 16px;
+}
+.hint b { color: var(--ink); }
+
+/* ---------- 表单 ---------- */
+.form-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 24px 8px;
+    margin-bottom: 16px;
+}
+.form-row {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+}
+.form-row:last-of-type { border-bottom: 0; }
+.form-row > label {
+    width: 120px;
+    flex: none;
+    padding-top: 8px;
+    font-size: 13px;
+    color: #4a5a6e;
+}
+.form-row .field { flex: 1; min-width: 0; }
+.form-row .field input[type="text"],
+.form-row .field input[type="number"],
+.form-row .field textarea {
+    width: 100%;
+    max-width: 420px;
+}
+.req { color: var(--danger); margin-left: 2px; }
+.form-tip {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--muted);
+}
+.form-actions {
+    padding: 16px 0 20px 134px;
+    display: flex;
+    gap: 10px;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #238a70, #17654f);
-    transform: translateY(-1px);
-}
-
-.btn:hover,
-.btn-ghost:hover {
-    transform: translateY(-1px);
-}
-
-/* 表单控件 */
+/* 输入控件统一外观 */
 input[type="text"],
 input[type="number"],
 input[type="date"],
+input[type="password"],
 select,
 textarea {
-    border-radius: 9px;
-    background: #ffffff;
+    padding: 7px 10px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    border: 1px solid #cfd8e3;
+    border-radius: 3px;
+    background: #fff;
+    outline: 0;
 }
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="date"]:focus,
+input:focus,
 select:focus,
 textarea:focus {
-    border-color: #2f7f68;
-    box-shadow: 0 0 0 3px rgba(47, 127, 104, 0.14);
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(15, 76, 156, .10);
 }
+textarea { resize: vertical; }
 
-.form-row > label {
-    width: 110px;
-    font-weight: 600;
-    color: #2b4a41;
-}
-
-.form-actions {
-    border-top: 1px solid rgba(31, 95, 79, 0.12);
-}
-
-/* 库存摘要 */
-.summary .box {
-    background: #ffffff;
-    border: 1px solid #e3eae6;
-    border-radius: 12px;
-}
-
-/* 页面标题条：白底，压住照片保证标题可读 */
-.page-head {
-    background: #ffffff;
-    border-bottom: 2px solid #1f5f4f;
-    border-radius: 12px 12px 0 0;
-    padding: 14px 18px 12px;
+/* ---------- 库存摘要 ---------- */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
     margin-bottom: 16px;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+}
+.summary .box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px;
+}
+.summary .label {
+    font-size: 12px;
+    color: var(--muted);
+}
+.summary .value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.4;
+}
+.summary .value.plain { color: var(--ink); }
+
+/* ---------- 区块小标题 ---------- */
+.section-title {
+    position: relative;
+    padding-left: 12px;
+    margin: 4px 0 12px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 3px;
+    height: 15px;
+    background: var(--blue);
 }
 
-.page-head h1 {
-    letter-spacing: 0.5px;
+/* ---------- 申请状态（学生端页面沿用） ---------- */
+.status {
+    display: inline-block;
+    padding: 0 9px;
+    font-size: 12px;
+    line-height: 20px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    white-space: nowrap;
 }
+.status.PENDING   { background: #fdf7ea; color: #a2620b; border-color: #eed3a2; }
+.status.APPROVED  { background: #eef4fc; color: var(--blue); border-color: #c9dcf5; }
+.status.REJECTED  { background: #fdf0ee; color: var(--danger); border-color: #e5b7ae; }
+.status.BORROWED  { background: #f5f3ff; color: #5b21b6; border-color: #d8ccf5; }
+.status.RETURNED  { background: #eefaf3; color: #1a7f4b; border-color: #a9d8bf; }
+.status.CANCELLED { background: #f4f6f9; color: #6b7a8c; border-color: #d6dee8; }
 
-.msg {
-    background: #e7f4ee;
-    border-color: #9fd0bc;
+.flash {
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 14px;
 }
+.flash.success { background: #eefaf3; color: #1a7f4b; border: 1px solid #a9d8bf; }
+.flash.error { background: #fdf0ee; color: var(--danger); border: 1px solid #e5b7ae; }
 
-.msg-error {
-    background: #fdf0ee;
-    border-color: #e5b7ae;
-}
-
-/* 底部提示与页脚：白底 */
-.hint {
-    background: #ffffff;
-    padding: 12px 16px;
-    border-radius: 10px;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-}
-
-.footer {
-    background: #ffffff;
-    border-top: none;
-    padding: 12px 16px;
-    border-radius: 10px;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-}
-
-.empty {
-    color: #5d6f68;
-}
-
-@media (max-width: 720px) {
-    .topbar-inner,
-    .wrap {
-        width: calc(100% - 24px);
-    }
-
-    .form-card {
-        padding: 20px;
-    }
-
-    .form-row {
-        flex-direction: column;
-    }
-
-    .form-row > label {
-        width: auto;
-        padding: 0 0 4px;
-    }
+/* ---------- 小屏适配 ---------- */
+@media (max-width: 860px) {
+    .topbar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .main-nav ul { overflow-x: auto; }
+    .main-nav li a { padding: 10px 14px; white-space: nowrap; }
+    .page-head { flex-direction: column; align-items: flex-start; }
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .form-row { flex-direction: column; gap: 4px; }
+    .form-row > label { width: auto; padding-top: 0; }
+    .form-actions { padding-left: 0; }
+    .card { overflow-x: auto; }
 }

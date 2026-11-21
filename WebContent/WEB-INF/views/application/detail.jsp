@@ -4,97 +4,89 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>申请详情</title>
+    <title>申请详情 - 社团活动物资借还系统</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/material.css">
-    <style>
-        body { font-family: "Microsoft YaHei", sans-serif; margin: 24px; color: #1f2937; }
-        h2 { border-left: 4px solid #0e7490; padding-left: 10px; }
-        table { border-collapse: collapse; margin-top: 12px; }
-        th, td { border: 1px solid #d8dee7; padding: 7px 12px; text-align: left; font-size: 14px; }
-        th { background: #eef3f7; }
-        .field { margin: 6px 0; font-size: 14px; }
-        .field b { display: inline-block; width: 100px; color: #374151; font-weight: normal; }
-        .status { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
-        .PENDING   { background: #fef3c7; color: #92400e; }
-        .APPROVED  { background: #eff6ff; color: #1e40af; }
-        .REJECTED  { background: #fee2e2; color: #991b1b; }
-        .BORROWED  { background: #f5f3ff; color: #5b21b6; }
-        .RETURNED  { background: #ecfdf5; color: #065f46; }
-        .CANCELLED { background: #f3f4f6; color: #374151; }
-        .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;
-                 padding: 12px; border-radius: 4px; font-size: 14px; }
-        a { color: #0e7490; text-decoration: none; }
-        .btn-cancel { color: #b91c1c; border: 1px solid #fecaca; background: #fff; cursor: pointer;
-                      font-size: 13px; padding: 5px 14px; border-radius: 4px; }
-    </style>
 </head>
 <body>
-<div class="wrap"><div class="card" style="padding:26px 30px;">
 
-<h2>申请详情</h2>
+<%@ include file="/jsp/common/header.jsp" %>
 
-<c:choose>
-    <c:when test="${not empty error}">
-        <%-- 非本人访问：不泄露任何单头内容 --%>
-        <div class="error">${error}</div>
-        <p style="margin-top:16px;"><a href="${pageContext.request.contextPath}/applications">返回我的申请</a></p>
-    </c:when>
-    <c:otherwise>
-        <div class="field"><b>编号</b>${app.id}</div>
-        <div class="field"><b>活动名称</b>${app.activityName}</div>
-        <div class="field"><b>用途</b>${app.purpose}</div>
-        <div class="field"><b>预计开始</b>${app.expectedStart}</div>
-        <div class="field"><b>预计归还</b>${app.expectedReturn}</div>
-        <div class="field"><b>状态</b><span class="status ${app.status}">${app.statusText}</span></div>
-        <div class="field"><b>申请时间</b>${app.applyTimeText}</div>
+<div class="wrap">
+    <div class="page-head">
+        <div>
+            <h1>申请详情</h1>
+            <div class="sub">查看申请内容、物资明细和审批流转记录</div>
+        </div>
+        <a class="btn" href="${pageContext.request.contextPath}/applications">返回我的申请</a>
+    </div>
 
-        <h3 style="font-size:15px;margin-top:20px;">物资明细</h3>
-        <c:choose>
-            <c:when test="${empty items}">
-                <p style="color:#64748b;font-size:14px;">无明细</p>
-            </c:when>
-            <c:otherwise>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>物资</th><th>数量</th><th>单位</th><th>损坏</th><th>遗失</th><th>备注</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="it" items="${items}">
-                        <tr>
-                            <td>${it.materialName}</td>
-                            <td>${it.quantity}</td>
-                            <td>${it.unit}</td>
-                            <td>${it.damagedQty}</td>
-                            <td>${it.lostQty}</td>
-                            <td>${it.remark}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
+    <c:choose>
+        <c:when test="${not empty error}">
+            <%-- 非本人访问：不泄露任何单头内容 --%>
+            <div class="msg-error">${error}</div>
+        </c:when>
+        <c:otherwise>
+            <div class="card">
+                <table class="list">
+                    <tr><th style="width:120px">编号</th><td>${app.id}</td></tr>
+                    <tr><th>活动名称</th><td class="name-cell">${app.activityName}</td></tr>
+                    <tr><th>用途</th><td>${app.purpose}</td></tr>
+                    <tr><th>预计开始</th><td>${app.expectedStart}</td></tr>
+                    <tr><th>预计归还</th><td>${app.expectedReturn}</td></tr>
+                    <tr><th>状态</th><td><span class="status ${app.status}">${app.statusText}</span></td></tr>
+                    <tr><th>申请时间</th><td>${app.applyTimeText}</td></tr>
+                    <tr><th>审批意见</th><td>${empty app.reviewRemark ? '—' : app.reviewRemark}</td></tr>
+                    <tr><th>审批时间</th><td>${empty app.reviewTimeText ? '—' : app.reviewTimeText}</td></tr>
+                    <tr><th>借出时间</th><td>${empty app.borrowTimeText ? '—' : app.borrowTimeText}</td></tr>
+                    <tr><th>归还时间</th><td>${empty app.returnTimeText ? '—' : app.returnTimeText}</td></tr>
                 </table>
-            </c:otherwise>
-        </c:choose>
+            </div>
 
-        <h3 style="font-size:15px;margin-top:20px;">审批 / 流转</h3>
-        <div class="field"><b>审批意见</b>${empty app.reviewRemark ? '—' : app.reviewRemark}</div>
-        <div class="field"><b>审批时间</b>${empty app.reviewTimeText ? '—' : app.reviewTimeText}</div>
-        <div class="field"><b>借出时间</b>${empty app.borrowTimeText ? '—' : app.borrowTimeText}</div>
-        <div class="field"><b>归还时间</b>${empty app.returnTimeText ? '—' : app.returnTimeText}</div>
+            <div class="section-title">物资明细</div>
+            <div class="card">
+                <c:choose>
+                    <c:when test="${empty items}">
+                        <div class="empty">这张申请没有物资明细。</div>
+                    </c:when>
+                    <c:otherwise>
+                        <table class="list">
+                            <thead>
+                            <tr>
+                                <th>物资</th>
+                                <th class="num">数量</th>
+                                <th>单位</th>
+                                <th class="num">损坏</th>
+                                <th class="num">遗失</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="it" items="${items}">
+                                <tr>
+                                    <td class="name-cell">${it.materialName}</td>
+                                    <td class="num">${it.quantity}</td>
+                                    <td>${it.unit}</td>
+                                    <td class="num">${it.damagedQty}</td>
+                                    <td class="num">${it.lostQty}</td>
+                                    <td class="muted">${it.remark}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:otherwise>
+                </c:choose>
+            </div>
 
-        <div style="margin-top:20px;">
             <c:if test="${app.status == 'PENDING'}">
                 <form method="post" action="${pageContext.request.contextPath}/applications/cancel"
-                      onsubmit="return confirm('确认撤回此申请？');" style="display:inline">
+                      onsubmit="return confirm('确认撤回此申请？');">
                     <input type="hidden" name="id" value="${app.id}">
-                    <button type="submit" class="btn-cancel">撤回申请</button>
+                    <button type="submit" class="btn-danger">撤回申请</button>
                 </form>
             </c:if>
-            <a href="${pageContext.request.contextPath}/applications" style="margin-left:12px;">返回我的申请</a>
-        </div>
-    </c:otherwise>
-</c:choose>
+        </c:otherwise>
+    </c:choose>
+</div>
 
-</div></div>
 </body>
 </html>

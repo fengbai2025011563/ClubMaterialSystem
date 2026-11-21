@@ -30,7 +30,12 @@ public class AuthFilter implements Filter {
 
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
-        if (path.equals("/login") || path.startsWith("/css/") || path.equals("/favicon.ico")) {
+        // 登录页和静态资源（样式、脚本、图片）不拦截，否则登录页的背景图会被重定向成 302
+        if (path.equals("/login")
+                || path.startsWith("/css/")
+                || path.startsWith("/js/")
+                || path.startsWith("/images/")
+                || path.equals("/favicon.ico")) {
             chain.doFilter(request, response);
             return;
         }

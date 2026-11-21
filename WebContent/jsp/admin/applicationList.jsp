@@ -23,15 +23,7 @@
   <link rel="stylesheet" href="<%=ctx%>/css/material.css">
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">社团活动物资借还系统<span>审批</span></div>
-    <div style="margin-left:auto">
-      <a href="<%=ctx%>/material/list">物资库</a>
-      <a href="<%=ctx%>/logout">退出</a>
-    </div>
-  </div>
-</div>
+<%@ include file="/jsp/common/header.jsp" %>
 
 <div class="wrap">
   <div class="page-head">
