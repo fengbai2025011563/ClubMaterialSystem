@@ -2,6 +2,8 @@ package com.club.application.bean;
 
 import java.sql.Timestamp;
 
+import com.club.common.StatusUtil;
+
 /**
  * 申请单头。状态常量在此定义，全组统一使用这一份。
  * 对应表：loan_applications
@@ -33,6 +35,8 @@ public class LoanApplication {
     private Timestamp returnTime;
     /** 列表页展示用：物资种类数（findByApplicant 子查询得到，非表字段） */
     private int itemTypes;
+    /** 管理端列表用：申请人姓名（联表得到，非表字段） */
+    private String applicantName;
 
     public LoanApplication() {}
 
@@ -81,4 +85,23 @@ public class LoanApplication {
 
     public int getItemTypes()                  { return itemTypes; }
     public void setItemTypes(int n)            { this.itemTypes = n; }
+
+    public String getApplicantName()           { return applicantName; }
+    public void setApplicantName(String s)     { this.applicantName = s; }
+
+    /** 页面显示用：状态中文。 */
+    public String getStatusText()              { return StatusUtil.label(status); }
+
+    public String getApplyTimeText()           { return fmtTime(applyTime); }
+    public String getReviewTimeText()          { return fmtTime(reviewTime); }
+    public String getBorrowTimeText()          { return fmtTime(borrowTime); }
+    public String getReturnTimeText()          { return fmtTime(returnTime); }
+
+    private String fmtTime(Timestamp t) {
+        if (t == null) {
+            return "";
+        }
+        String s = t.toString();
+        return s.length() >= 16 ? s.substring(0, 16) : s;
+    }
 }

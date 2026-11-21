@@ -38,6 +38,7 @@
                 </span>
             <% } %>
             <a href="<%=ctx%>/material/admin">物资管理</a>
+            <a href="<%=ctx%>/admin/applications">申请管理</a>
             <a href="<%=ctx%>/material/list">物资浏览</a>
         </div>
     </div>
@@ -192,12 +193,6 @@
         <% } %>
     </div>
     <% } %>
-</div>
-
-<div class="footer">
-    【调试入口，正式登录上线后删除】模拟登录：
-    <a href="<%=ctx%>/dev-login?as=admin">管理员</a>
-    <a href="<%=ctx%>/dev-login?as=member">普通成员</a>
 </div>
 
 </body>

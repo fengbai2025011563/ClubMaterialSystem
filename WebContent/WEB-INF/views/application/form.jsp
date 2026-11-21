@@ -72,7 +72,7 @@
                             <c:forEach var="m" items="${materials}">
                                 <option value="${m.id}"
                                     <c:if test="${not empty formItems and formItems[i].materialId == m.id}">selected</c:if>>
-                                    ${m.name}（可用 ${m.available}${m.unit}）
+                                    ${m.name}（可用 ${m.availableQty}${m.unit}）
                                 </option>
                             </c:forEach>
                         </select>

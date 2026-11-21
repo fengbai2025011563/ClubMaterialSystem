@@ -49,6 +49,8 @@
     <a href="${pageContext.request.contextPath}/applications?status=CANCELLED">已取消</a>
     &nbsp;&nbsp;
     <a href="${pageContext.request.contextPath}/applications/new" style="font-weight:bold;">+ 新建申请</a>
+    &nbsp;&nbsp;
+    <a href="${pageContext.request.contextPath}/material/list">物资库</a>
 </div>
 
 <c:choose>
@@ -68,8 +70,8 @@
                     <td>${app.id}</td>
                     <td>${app.activityName}</td>
                     <td>${app.itemTypes}</td>
-                    <td><span class="status ${app.status}">${app.status}</span></td>
-                    <td>${app.applyTime}</td>
+                    <td><span class="status ${app.status}">${app.statusText}</span></td>
+                    <td>${app.applyTimeText}</td>
                     <td>
                         <a href="${pageContext.request.contextPath}/applications/detail?id=${app.id}">详情</a>
                         <c:if test="${app.status == 'PENDING'}">

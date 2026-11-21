@@ -43,8 +43,8 @@
         <div class="field"><b>用途</b>${app.purpose}</div>
         <div class="field"><b>预计开始</b>${app.expectedStart}</div>
         <div class="field"><b>预计归还</b>${app.expectedReturn}</div>
-        <div class="field"><b>状态</b><span class="status ${app.status}">${app.status}</span></div>
-        <div class="field"><b>申请时间</b>${app.applyTime}</div>
+        <div class="field"><b>状态</b><span class="status ${app.status}">${app.statusText}</span></div>
+        <div class="field"><b>申请时间</b>${app.applyTimeText}</div>
 
         <h3 style="font-size:15px;margin-top:20px;">物资明细</h3>
         <c:choose>
@@ -76,9 +76,9 @@
 
         <h3 style="font-size:15px;margin-top:20px;">审批 / 流转</h3>
         <div class="field"><b>审批意见</b>${empty app.reviewRemark ? '—' : app.reviewRemark}</div>
-        <div class="field"><b>审批时间</b>${empty app.reviewTime ? '—' : app.reviewTime}</div>
-        <div class="field"><b>借出时间</b>${empty app.borrowTime ? '—' : app.borrowTime}</div>
-        <div class="field"><b>归还时间</b>${empty app.returnTime ? '—' : app.returnTime}</div>
+        <div class="field"><b>审批时间</b>${empty app.reviewTimeText ? '—' : app.reviewTimeText}</div>
+        <div class="field"><b>借出时间</b>${empty app.borrowTimeText ? '—' : app.borrowTimeText}</div>
+        <div class="field"><b>归还时间</b>${empty app.returnTimeText ? '—' : app.returnTimeText}</div>
 
         <div style="margin-top:20px;">
             <c:if test="${app.status == 'PENDING'}">

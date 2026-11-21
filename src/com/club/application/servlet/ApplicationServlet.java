@@ -3,8 +3,10 @@ package com.club.application.servlet;
 import com.club.application.bean.ApplicationItem;
 import com.club.application.bean.LoanApplication;
 import com.club.application.service.ApplicationService;
-import com.club.application.temp.BusinessException;
-import com.club.application.temp.TempMaterialService;
+import com.club.common.BusinessException;
+import com.club.material.Material;
+import com.club.material.MaterialService;
+import com.club.user.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,8 +35,7 @@ import java.util.UUID;
 public class ApplicationServlet extends HttpServlet {
 
     private final ApplicationService appService = new ApplicationService();
-    /* 【临时】stu2 的 MaterialService 到位后替换 */
-    private final TempMaterialService materialService = new TempMaterialService();
+    private final MaterialService materialService = new MaterialService();
 
     /* 表单最多 5 行物资 */
     private static final int FORM_ROWS = 5;
@@ -98,7 +99,7 @@ public class ApplicationServlet extends HttpServlet {
     /* GET /applications/new 填申请表单 */
     private void doNew(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setAttribute("materials", materialService.listActive(null));
+        req.setAttribute("materials", activeMaterials());
         req.setAttribute("clientToken", UUID.randomUUID().toString());
         req.setAttribute("formRows", FORM_ROWS);
         req.getRequestDispatcher("/WEB-INF/views/application/form.jsp").forward(req, resp);
@@ -124,7 +125,7 @@ public class ApplicationServlet extends HttpServlet {
         } catch (BusinessException e) {
             // 回填表单，避免用户重新输入；clientToken 沿用，才能挡住重复提交
             req.setAttribute("error", e.getMessage());
-            req.setAttribute("materials", materialService.listActive(null));
+            req.setAttribute("materials", activeMaterials());
             req.setAttribute("clientToken", app.getClientToken());
             req.setAttribute("formRows", FORM_ROWS);
             req.setAttribute("form", app);
@@ -237,26 +238,23 @@ public class ApplicationServlet extends HttpServlet {
         }
     }
 
-    /**
-     * 当前登录用户 id。
-     * 【临时】正式逻辑由 stu3 的 AuthFilter 保证 session 里一定有 loginUser；
-     * 本地自测（还没有登录模块）时回退到 1，合并后请删除回退分支。
-     */
-    private int currentUserId(HttpServletRequest req) {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            Object loginUser = session.getAttribute("loginUser");
-            if (loginUser != null) {
-                try {
-                    Object id = loginUser.getClass().getMethod("getId").invoke(loginUser);
-                    if (id instanceof Number) {
-                        return ((Number) id).intValue();
-                    }
-                } catch (ReflectiveOperationException ignored) {
-                    // 落到下面的临时回退
-                }
+    /** 表单下拉：只列 ACTIVE 且可用量大于 0 的物资。 */
+    private List<Material> activeMaterials() {
+        List<Material> result = new ArrayList<>();
+        for (Material m : materialService.list(null, null, "ACTIVE")) {
+            if (m.getAvailableQty() > 0) {
+                result.add(m);
             }
         }
-        return 1;   // TODO 合并 stu3 的登录模块后删除
+        return result;
+    }
+
+    /**
+     * 当前登录用户 id。
+     * AuthFilter 保证 /applications 下的请求一定有 loginUser。
+     */
+    private int currentUserId(HttpServletRequest req) {
+        User user = (User) req.getSession().getAttribute("loginUser");
+        return user.getId();
     }
 }
